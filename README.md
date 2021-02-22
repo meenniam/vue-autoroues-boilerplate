@@ -1,4 +1,4 @@
-# greenway-backoffice
+# vue-template
 
 ## Project setup
 ```
