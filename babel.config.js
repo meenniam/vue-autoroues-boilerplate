@@ -5,6 +5,7 @@ module.exports = {
       "module-resolver",
       {
         root: ["./src"],
+        extensions: [".js", ".vue"],
         alias: {
           // test: "./test",
           // underscore: "lodash"
