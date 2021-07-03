@@ -3,7 +3,7 @@ import mutations from "./mutations";
 
 const state = {
   isAuth: false,
-  user: {},
+  // user: {},
   isFetching: false,
   error: null
 };

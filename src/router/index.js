@@ -1,17 +1,22 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
-import routes from "./routes";
+import Router from "vue-router";
+import routes from "vue-auto-routing";
+import { createRouterLayout } from "vue-router-layout";
 
-Vue.use(VueRouter);
+Vue.use(Router);
 
-const router = new VueRouter({
+const RouterLayout = createRouterLayout(layout => {
+  return import("@/layouts/" + layout + ".vue");
+});
+
+export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes: [
+    {
+      path: "/",
+      component: RouterLayout,
+      children: routes
+    }
+  ]
 });
-
-router.beforeEach((to, from, next) => {
-  next();
-});
-
-export default router;

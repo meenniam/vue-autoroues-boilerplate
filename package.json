@@ -16,6 +16,7 @@
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
+    "vue-router-layout": "^0.1.6",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
@@ -32,6 +33,8 @@
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-vue": "^6.2.2",
     "prettier": "^1.19.1",
+    "vue-auto-routing": "^1.0.0",
+    "vue-cli-plugin-auto-routing": "^1.3.0",
     "vue-template-compiler": "^2.6.11"
   }
 }
