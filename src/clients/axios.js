@@ -1,9 +1,24 @@
 import axios from "axios";
+// import { app } from "main";
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL_API;
 
-axios.interceptors.request.use(
+const axiosApiInstance = axios;
+
+/**
+ * Request interceptor for API calls
+ */
+axiosApiInstance.interceptors.request.use(
   function(config) {
+    /* attach token here
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer ${token}`
+      };
+    }
+    */
     // Do something before request is sent
     return config;
   },
@@ -13,19 +28,49 @@ axios.interceptors.request.use(
   }
 );
 
+/**
+ * Response interceptor for API calls
+ * ทำหลังจากได้ผลรับ
+ */
+axiosApiInstance.interceptors.response.use(
+  response => {
+    return response;
+  },
+  async function(error) {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      /* call refresh token
+      originalRequest._retry = true;
+      const access_token = await refreshAccessToken();
+      axios.defaults.headers.common["Authorization"] = "Bearer " + access_token;
+      return axiosApiInstance(originalRequest);
+      */
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const instance = config => {
-  axios.create(config);
+  axiosApiInstance.create(config);
 };
 
 export default {
-  axios,
-  get: (path, config = {}) => {
-    return axios.get(path, config);
+  axiosApiInstance,
+  get: (url, config = {}) => {
+    return axiosApiInstance({ url, method: "get", ...config });
   },
-  post: (path, data, config = {}) => {
-    return axios.post(path, data, config);
+  delete: (url, config = {}) => {
+    return axiosApiInstance({ url, method: "delete", ...config });
   },
-  put: (path, data, config = {}) => {
-    return axios.post(path, data, config);
+  post: (url, data, config = {}) => {
+    return axiosApiInstance({ url, method: "post", data, ...config });
+  },
+  put: (url, data, config = {}) => {
+    return axiosApiInstance({ url, method: "put", data, ...config });
   }
 };
+
+/**
+ * function for API call to get refresh token
+ */
+// async function refreshAccessToken() {}
